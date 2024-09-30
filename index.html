@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+    <link rel="stylesheet" href="/src/output.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Main content container -->
+    <div class="flex-grow">
+        <!-- Shop Header -->
+        <header class="bg-slate-900 text-white py-4 text-center">
+            <h1 class="text-3xl font-bold">My Shop</h1>
+            <p class="mt-2">Find the best products here!</p>
+        </header>
+        <div id="product-list" class="p-6">
+            <h2 class="text-2xl font-semibold mb-6">Product List</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <img
+                        src="/img/macBookPro.jpg"
+                        alt="MacBook Pro"
+                        class="h-40 w-auto rounded-lg mx-auto"
+                    />
+                    <h3 class="text-lg font-semibold mb-2">MacBook Pro</h3>
+                    <p class="text-yellow-500">$1599</p>
+                    <button
+                        onclick="showReview('MacBook Pro', '/img/macBookPro.jpg')"
+                        class="mt-4 bg-slate-900 text-white py-2 px-4 rounded hover:bg-slate-800"
+                    >
+                        Review
+                    </button>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <img
+                        src="/img/mac-mini.png"
+                        alt="Mac mini"
+                        class="h-40 w-auto rounded-lg mx-auto"
+                    />
+                    <h3 class="text-lg font-semibold mb-2">Mac mini</h3>
+                    <p class="text-yellow-500">$599</p>
+                    <button
+                        onclick="showReview('Mac mini', '/img/mac-mini.png')"
+                        class="mt-4 bg-slate-900 text-white py-2 px-4 rounded hover:bg-slate-800"
+                    >
+                        Review
+                    </button>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <img
+                        src="/img/mac-studio.jpg"
+                        alt="Mac Studio"
+                        class="h-40 w-auto rounded-lg mx-auto"
+                    />
+                    <h3 class="text-lg font-semibold mb-2">Mac Studio</h3>
+                    <p class="text-yellow-500">$599</p>
+                    <button
+                        onclick="showReview('Mac Studio', '/img/mac-studio.jpg')"
+                        class="mt-4 bg-slate-900 text-white py-2 px-4 rounded hover:bg-slate-800"
+                    >
+                        Review
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Product Review Page (hidden initially) -->
+        <div id="review-page" class="hidden p-6">
+            <div id="product-details" class="mb-4">
+                <!-- Product details will be populated here dynamically -->
+            </div>
+
+            <h2 class="text-2xl font-semibold mb-4">Customer Reviews</h2>
+
+            <form id="review-form" class="space-y-4">
+                <div>
+                    <label
+                        for="reviewer-name"
+                        class="block text-sm font-medium text-gray-700"
+                        >Your Name</label
+                    >
+                    <input
+                        type="text"
+                        id="reviewer-name"
+                        class="mt-1 p-2 w-full border rounded-md"
+                    />
+                </div>
+
+                <div>
+                    <label
+                        for="review-text"
+                        class="block text-sm font-medium text-gray-700"
+                        >Your Review</label
+                    >
+                    <textarea
+                        id="review-text"
+                        class="mt-1 p-2 w-full border rounded-md"
+                    ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500"
+                >
+                    Submit Review
+                </button>
+
+                <!-- Back Button inside form with type="button" -->
+                <button
+                    onclick="showProductList()"
+                    class="bg-red-600 text-white py-2 px-4 rounded mb-4"
+                    type="button"
+                >
+                    Back
+                </button>
+            </form>
+
+            <div id="reviews-container" class="mt-6">
+                <!-- Reviews will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer container -->
+    <footer class="bg-slate-900 text-white text-center p-4">
+        <div>
+            © 2024 mikki:
+            <a href="https://tw-elements.com/" class="text-white"
+                >Products</a
+            >
+        </div>
+    </footer>
+
+    <script>
+        function showReview(productName, productImage) {
+            document.getElementById("product-list").classList.add("hidden");
+            document
+                .getElementById("review-page")
+                .classList.remove("hidden");
+
+            const productDetails = `
+                <img src="${productImage}" alt="${productName}" class=" h-48 object-cover rounded-lg mb-4">
+                <h3 class="text-lg font-semibold mb-2">${productName}</h3>
+                `;
+            document.getElementById("product-details").innerHTML =
+                productDetails;
+        }
+
+        function showProductList() {
+            document.getElementById("review-page").classList.add("hidden");
+            document
+                .getElementById("product-list")
+                .classList.remove("hidden");
+        }
+
+        document
+            .getElementById("review-form")
+            .addEventListener("submit", function (event) {
+                event.preventDefault();
+                const name = document.getElementById("reviewer-name").value;
+                const reviewText =
+                    document.getElementById("review-text").value;
+                // Add the review dynamically
+                const reviewHTML = `
+                    <div class="p-4 bg-slate-900 rounded-lg mt-4">
+                        <p class=" text-white"><strong>${name}</strong></p>
+                        <p class=" text-white">${reviewText}</p>
+                    </div>
+                    `;
+                document
+                    .getElementById("reviews-container")
+                    .insertAdjacentHTML("beforeend", reviewHTML);
+
+                // Clear the form
+                document.getElementById("review-form").reset();
+            });
+    </script>
+</body>
+</html>
